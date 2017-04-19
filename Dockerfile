@@ -15,6 +15,7 @@ RUN \
     ls -al /code/ /code/node/ /code/node/yarn/ /code/node/yarn/dist/ /code/node/yarn/dist/bin/ && \
     sleep 1 && \
     chmod +x /code/node/yarn/dist/bin/* && \
+    ls -al /code/node/yarn/dist/bin/ && \
     sleep 1 && \
     ./mvnw com.github.eirslett:frontend-maven-plugin:yarn && \
     ./mvnw package -Pprod && \

@@ -6,6 +6,7 @@ ADD . /code/
 
 # Add OpenSSH, package the application and delete all lib
 #RUN apt-get update && apt-get install openssh && \
+WORKDIR /code/
 RUN \
     cd /code/ && \
     rm -Rf target && \

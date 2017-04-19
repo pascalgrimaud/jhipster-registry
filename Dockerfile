@@ -11,6 +11,10 @@ RUN \
     rm -Rf target && \
     chmod +x /code/mvnw && \
     sleep 1 && \
+    ./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-yarn -DnodeVersion=v6.10.2 -DyarnVersion=v0.23.2 && \
+    ls -al /code/node/ /code/node/yarn/dist/bin/ && \
+    sleep 1 && \
+    ./mvnw com.github.eirslett:frontend-maven-plugin:yarn && \
     ./mvnw package -Pprod && \
     mv /code/target/*.war /jhipster-registry.war && \
     rm -Rf /code/ /root/.m2/wrapper/ /root/.m2/repository/ /root/.cache /root/.config /root/.local /var/cache/apk/*

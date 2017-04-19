@@ -1,4 +1,5 @@
-FROM openjdk:8
+#FROM openjdk:8
+FROM openjdk:8-jdk-alpine
 
 # Add jhipster-registry source
 ADD . /code/
@@ -12,7 +13,7 @@ RUN \
     sleep 1 && \
     ./mvnw package -Pprod && \
     mv /code/target/*.war /jhipster-registry.war && \
-    rm -Rf /code/ /root/.m2/wrapper/ /root/.m2/repository/ /root/.cache /root/.config /root/.local
+    rm -Rf /code/ /root/.m2/wrapper/ /root/.m2/repository/ /root/.cache /root/.config /root/.local /var/cache/apk/*
 
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     SPRING_PROFILES_ACTIVE=prod,native \

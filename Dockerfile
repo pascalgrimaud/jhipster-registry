@@ -1,7 +1,7 @@
 FROM openjdk:alpine
 
 RUN adduser -S jhipster
-
+RUN apk update && apk add --update nodejs
 # Add jhipster-registry source
 ADD . /code/
 RUN chown -R jhipster /code/

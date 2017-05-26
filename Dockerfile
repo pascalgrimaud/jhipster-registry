@@ -1,7 +1,12 @@
-FROM openjdk:8
+FROM openjdk:alpine
+
+RUN adduser -S jhipster
 
 # Add jhipster-registry source
 ADD . /code/
+RUN chown -R jhipster /code/
+
+USER jhipster
 
 # Package the application and delete all lib
 RUN \

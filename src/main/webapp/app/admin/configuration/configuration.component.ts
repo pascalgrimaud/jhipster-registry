@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { JhiConfigurationService } from './configuration.service';
+
+import { JhiRoutesService, Route } from '../../shared'
 
 @Component({
     selector: 'jhi-configuration',
     templateUrl: './configuration.component.html'
 })
-export class JhiConfigurationComponent implements OnInit {
+export class JhiConfigurationComponent implements OnInit, OnDestroy {
     allConfiguration: any = null;
     configuration: any = null;
     configKeys: any[];
@@ -14,8 +16,13 @@ export class JhiConfigurationComponent implements OnInit {
     orderProp: string;
     reverse: boolean;
 
+    activeRoute: Route;
+    subscription: Subscription;
+    updatingConfig: boolean;
+
     constructor(
-        private configurationService: JhiConfigurationService
+        private configurationService: JhiConfigurationService,
+        private routesService: JhiRoutesService
     ) {
         this.configKeys = [];
         this.filter = '';
@@ -28,18 +35,37 @@ export class JhiConfigurationComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.configurationService.get().subscribe((configuration) => {
-            this.configuration = configuration;
+        this.subscription = this.routesService.routeChanged$.subscribe((route) => {
+            this.activeRoute = route;
+            this.displayActiveRouteConfig();
+        });
+    }
 
-            for (const config of configuration) {
-                if (config.properties !== undefined) {
-                    this.configKeys.push(Object.keys(config.properties));
+    displayActiveRouteConfig() {
+        this.updatingConfig = true;
+        if (this.activeRoute && this.activeRoute.status !== 'DOWN') {
+            this.configurationService.getInstanceConfigs(this.activeRoute).subscribe((configuration) => {
+                this.configuration = configuration;
+                this.updatingConfig = false;
+                for (const config of configuration) {
+                    if (config.properties !== undefined) {
+                        this.configKeys.push(Object.keys(config.properties));
+                    }
                 }
-            }
-        });
+            }, (error) => {
+                this.updatingConfig = false;
+                this.routesService.routeDown(this.activeRoute);
+            });
 
-        this.configurationService.getEnv().subscribe((configuration) => {
-            this.allConfiguration = configuration;
-        });
+            this.configurationService.getInstanceEnv(this.activeRoute).subscribe((configuration) => {
+                this.allConfiguration = configuration;
+            });
+        } else {
+            this.routesService.routeDown(this.activeRoute);
+        }
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 }

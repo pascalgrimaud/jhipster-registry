@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { Route } from '../../shared';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
@@ -9,7 +10,7 @@ export class JhiConfigurationService {
     constructor(private http: Http) {
     }
 
-    get(): Observable<any> {
+    getConfigs(prefix: String = ''): Observable<any> {
         return this.http.get(SERVER_API_URL + 'management/configprops').map((res: Response) => {
             const properties: any[] = [];
 
@@ -23,12 +24,19 @@ export class JhiConfigurationService {
 
             return properties.sort((propertyA, propertyB) => {
                 return (propertyA.prefix === propertyB.prefix) ? 0 :
-                       (propertyA.prefix < propertyB.prefix) ? -1 : 1;
+                    (propertyA.prefix < propertyB.prefix) ? -1 : 1;
             });
         });
     }
 
-    getEnv(): Observable<any> {
+    getInstanceConfigs(instance: Route): Observable<any> {
+        if (instance && instance.prefix && instance.prefix.length > 0) {
+            return this.getConfigs(instance.prefix + '/');
+        }
+        return this.getConfigs();
+    }
+
+    getEnv(prefix: String = ''): Observable<any> {
         return this.http.get(SERVER_API_URL + 'management/env').map((res: Response) => {
             const properties: any = {};
 
@@ -50,5 +58,12 @@ export class JhiConfigurationService {
 
             return properties;
         });
+    }
+
+    getInstanceEnv(instance: Route): Observable<any> {
+        if (instance && instance.prefix && instance.prefix.length > 0) {
+            return this.getEnv(instance.prefix + '/');
+        }
+        return this.getEnv();
     }
 }

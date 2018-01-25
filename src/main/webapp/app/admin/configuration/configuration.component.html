@@ -1,6 +1,7 @@
-<div *ngIf="allConfiguration && configuration">
+<div>
     <h2>Configuration</h2>
 
+    <jhi-route-selector></jhi-route-selector>
     <span>Filter (by prefix)</span> <input type="text" [(ngModel)]="filter" class="form-control">
     <label>Spring configuration</label>
     <table class="table table-striped table-bordered table-responsive d-table">

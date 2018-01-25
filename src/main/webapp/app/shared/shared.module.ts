@@ -1,24 +1,19 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import {
     JHipsterRegistrySharedLibsModule,
     JHipsterRegistrySharedCommonModule,
     CSRFService,
     AuthServerProvider,
-    AuthSessionServerProvider,
     AccountService,
     UserService,
     StateStorageService,
     LoginService,
     LoginModalService,
-    LoginOAuth2Service,
+    JhiLoginModalComponent,
     Principal,
     HasAnyAuthorityDirective,
-    JhiLoginModalComponent,
-    JhiRoutesService,
-    JhiRefreshService
 } from './';
 
 @NgModule({
@@ -31,14 +26,8 @@ import {
         HasAnyAuthorityDirective
     ],
     providers: [
-        JhiRoutesService,
-        JhiRefreshService,
-        AuthServerProvider,
-        AuthSessionServerProvider,
-        CookieService,
         LoginService,
         LoginModalService,
-        LoginOAuth2Service,
         AccountService,
         StateStorageService,
         Principal,

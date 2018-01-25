@@ -6,7 +6,7 @@ import {
     healthRoute,
     logfileRoute,
     logsRoute,
-    metricsRoute
+    metricsRoute,
 } from './';
 
 import { UserRouteAccessService } from '../shared';

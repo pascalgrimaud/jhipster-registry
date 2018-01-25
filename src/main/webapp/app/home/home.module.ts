@@ -4,22 +4,18 @@ import { RouterModule } from '@angular/router';
 import { JHipsterRegistrySharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
-import { EurekaStatusService } from './eureka.status.service';
-import { JhiLoginModalComponent } from '../shared/login/login.component';
 
 @NgModule({
     imports: [
         JHipsterRegistrySharedModule,
-        RouterModule.forRoot([ HOME_ROUTE ], { useHash: true })
+        RouterModule.forChild([ HOME_ROUTE ])
     ],
     declarations: [
         HomeComponent,
     ],
     entryComponents: [
-        JhiLoginModalComponent
     ],
     providers: [
-        EurekaStatusService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

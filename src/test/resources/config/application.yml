@@ -13,26 +13,40 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+eureka:
+    client:
+        enabled: true
+    instance:
+        appname: JHipsterRegistry
+        instanceId: JHipsterRegistry:${spring.application.instance-id:${random.value}}
+
 spring:
     application:
         name: JHipsterRegistry
     jackson:
         serialization.write_dates_as_timestamps: false
+    cache:
+        type: simple
     mail:
         host: localhost
+    messages:
+        basename: i18n/messages
     mvc:
         favicon:
             enabled: false
     thymeleaf:
         mode: XHTML
 
-security:
-    basic:
-        enabled: false
+liquibase:
+    contexts: test
 
 server:
     port: 10344
     address: localhost
+
+info:
+    project:
+        version: #project.version#
 
 # ===================================================================
 # JHipster specific properties
@@ -45,6 +59,16 @@ jhipster:
         core-pool-size: 1
         max-pool-size: 50
         queue-capacity: 10000
+    # To test logstash appender
+    logging:
+        logstash:
+            enabled: true
+            host: localhost
+            port: 5000
+            queue-size: 512
+    mail:
+        from: test@localhost
+        base-url: http://127.0.0.1:8080
     security:
         authentication:
             jwt:
@@ -53,6 +77,9 @@ jhipster:
                 token-validity-in-seconds: 86400
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
+        logs: # Reports Dropwizard metrics in the logs
+            enabled: true
+            report-frequency: 60 # in seconds
 
 # ===================================================================
 # Application specific properties

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { Route } from '../../shared';
+import { Observable } from 'rxjs/Observable';
+import { SERVER_API_URL } from '../../app.constants';
 
 @Injectable()
 export class JhiHealthService {
@@ -12,17 +12,8 @@ export class JhiHealthService {
         this.separator = '.';
     }
 
-    // get the Registry's health
     checkHealth(): Observable<any> {
-        return this.http.get('management/health').map((res: Response) => res.json());
-    }
-
-    // get the instance's health
-    checkInstanceHealth(instance: Route): Observable<any> {
-        if (instance && instance.prefix && instance.prefix.length > 0) {
-            return this.http.get((instance.prefix + '/management/health')).map((res: Response) => res.json());
-        }
-        return this.checkHealth();
+        return this.http.get(SERVER_API_URL + 'management/health').map((res: Response) => res.json());
     }
 
     transformHealthData(data): any {

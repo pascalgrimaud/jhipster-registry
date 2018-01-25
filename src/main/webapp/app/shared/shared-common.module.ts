@@ -1,20 +1,13 @@
-import { NgModule, Sanitizer } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { AlertService } from 'ng-jhipster';
-import { GroupByPipe } from './pipe/group-by.pipe';
+import { registerLocaleData } from '@angular/common';
+import locale from '@angular/common/locales/en';
+
 import {
     JHipsterRegistrySharedLibsModule,
     JhiAlertComponent,
-    JhiAlertErrorComponent,
-    JhiRouteSelectorComponent,
-    JhiRefreshSelectorComponent
+    JhiAlertErrorComponent
 } from './';
-
-export function alertServiceProvider(sanitizer: Sanitizer) {
-    // set below to true to make alerts look like toast
-    const isToast = false;
-    return new AlertService(sanitizer, isToast);
-}
 
 @NgModule({
     imports: [
@@ -22,26 +15,23 @@ export function alertServiceProvider(sanitizer: Sanitizer) {
     ],
     declarations: [
         JhiAlertComponent,
-        JhiAlertErrorComponent,
-        JhiRouteSelectorComponent,
-        JhiRefreshSelectorComponent,
-        GroupByPipe
+        JhiAlertErrorComponent
     ],
     providers: [
+        Title,
         {
-            provide: AlertService,
-            useFactory: alertServiceProvider,
-            deps: [Sanitizer]
+            provide: LOCALE_ID,
+            useValue: 'en'
         },
-        Title
     ],
     exports: [
         JHipsterRegistrySharedLibsModule,
         JhiAlertComponent,
-        JhiAlertErrorComponent,
-        JhiRouteSelectorComponent,
-        JhiRefreshSelectorComponent,
-        GroupByPipe
+        JhiAlertErrorComponent
     ]
 })
-export class JHipsterRegistrySharedCommonModule {}
+export class JHipsterRegistrySharedCommonModule {
+    constructor() {
+        registerLocaleData(locale);
+    }
+}

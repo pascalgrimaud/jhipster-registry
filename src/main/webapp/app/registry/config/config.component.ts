@@ -49,7 +49,7 @@ export class JhiConfigComponent implements OnInit, OnDestroy {
     }
 
     load() {
-        this.profileService.getProfileInfo().subscribe((response) => {
+        this.profileService.getProfileInfo().then((response) => {
             this.activeRegistryProfiles = response.activeProfiles;
             this.isNative = this.activeRegistryProfiles.includes('native');
             this.nativeSearchLocation = response.nativeSearchLocation;

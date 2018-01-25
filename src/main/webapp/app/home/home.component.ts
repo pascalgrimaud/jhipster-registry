@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Account, LoginModalService, Principal } from '../shared';
 import { JhiHealthService } from '../admin';
@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
     constructor(private principal: Principal,
                 private loginModalService: LoginModalService,
                 private loginOAuth2Service: LoginOAuth2Service,
-                private eventManager: EventManager,
+                private eventManager: JhiEventManager,
                 private eurekaStatusService: EurekaStatusService,
                 private applicationsService: JhiApplicationsService,
                 private healthService: JhiHealthService,
@@ -48,7 +48,6 @@ export class HomeComponent implements OnInit {
                 this.populateDashboard();
             }
         });
-
         this.registerAuthenticationSuccess();
     }
 
@@ -56,7 +55,6 @@ export class HomeComponent implements OnInit {
         this.eventManager.subscribe('authenticationSuccess', (message) => {
             this.principal.identity().then((account) => {
                 this.account = account;
-                this.populateDashboard();
             });
         });
     }
@@ -66,13 +64,7 @@ export class HomeComponent implements OnInit {
     }
 
     login() {
-        this.profileService.getProfileInfo().subscribe((profileInfo) => {
-            if (profileInfo.activeProfiles.indexOf('oauth2') > -1) {
-                this.loginOAuth2Service.login();
-            } else {
-                this.modalRef = this.loginModalService.open();
-            }
-        });
+        this.modalRef = this.loginModalService.open();
     }
 
     populateDashboard() {

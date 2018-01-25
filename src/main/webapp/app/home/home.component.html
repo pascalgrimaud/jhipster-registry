@@ -1,140 +1,41 @@
-<div [ngSwitch]="isAuthenticated()">
-    <h1 class="text-center">JHipster Registry <small>{{version}}</small></h1>
-    <div class="row">
-        <div class="col-md-12 text-center">
+<div class="row">
+    <div class="col-md-3">
+        <span class="hipster img-fluid rounded"></span>
+    </div>
+    <div class="col-md-9">
+        <h1 class="display-4">Welcome, Java Hipster!</h1>
+        <p class="lead">This is your homepage</p>
+
+        <div [ngSwitch]="isAuthenticated()">
             <div class="alert alert-success" *ngSwitchCase="true">
-                <span *ngIf="account"> You are logged in as user "{{account.login}}". </span>
+                <span *ngIf="account"
+                   > You are logged in as user "{{account.login}}". </span>
             </div>
 
             <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>You are not authenticated.</span>
-                <a class="alert-link" (click)="login()">Please sign in</a>
+                <span>If you want to </span>
+                <a class="alert-link" (click)="login()">sign in</a><span>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>
+            </div>
+            <div class="alert alert-warning" *ngSwitchCase="false">
+                <span>You don't have an account yet?</span>
+                <a class="alert-link" routerLink="register">Register a new account</a>
             </div>
         </div>
-    </div>
-    <div class="row" *ngSwitchCase="true">
-        <div class="col-sm-12 col-md-6" *ngIf="status">
-            <div class="card card-outline-primary">
-                <div class="card-header card-primary">
-                    <h3 class="card-title">System Status</h3>
-                </div>
-                <div class="card-block">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td>Environment</td>
-                            <td>{{status.environment}}</td>
-                        </tr>
-                        <tr>
-                            <td>Data Center</td>
-                            <td>{{status.datacenter}}</td>
-                        </tr>
-                        <tr>
-                            <td>Current Time</td>
-                            <td>{{status.currentTime}}</td>
-                        </tr>
-                        <tr>
-                            <td>System Uptime</td>
-                            <td>{{status.upTime}}</td>
-                        </tr>
-                        <tr>
-                            <td>Below Renew Threshold</td>
-                            <td>{{status.isBelowRenewThreshold}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6" *ngIf="appInstances">
-            <div class="card card-outline-primary">
-                <div class="card-header card-primary">
-                    <h3 class="card-title">Instances Registered</h3>
-                </div>
-                <div class="card-block">
-                    <!--{vm.apps.applications}}-->
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>App</th>
-                            <th>Instance ID</th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let app of appInstances">
-                            <td>{{app.name}}</td>
-                            <td class="break">{{app.instanceId}}</td>
-                            <td class="text-center">
-                            <span class="badge badge-pill font-weight-normal" [ngClass]="getBadgeClass(app.status)">
-                                {{app.status}}
-                            </span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row" *ngSwitchCase="true">
-        <div class="col-sm-12 col-md-6" *ngIf="status">
-            <div class="card card-outline-primary">
-                <div class="card-header card-primary">
-                    <h3 class="card-title">General Info</h3>
-                </div>
-                <div class="card-block">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td>Total Available Memory</td>
-                            <td>{{status.generalStats['total-avail-memory']}}</td>
-                        </tr>
-                        <tr>
-                            <td>Current Memory Usage</td>
-                            <td>{{status.generalStats['current-memory-usage']}}</td>
-                        </tr>
-                        <tr>
-                            <td>Number of CPU</td>
-                            <td>{{status.generalStats['num-of-cpus']}}</td>
-                        </tr>
-                        <tr>
-                            <td>Instance Ip Address</td>
-                            <td>{{status.instanceInfo.ipAddr}}</td>
-                        </tr>
-                        <tr>
-                            <td>Instance Status</td>
-                            <td>
-                                <span class="badge badge-pill font-weight-normal" [ngClass]="getBadgeClass(status.instanceInfo.status)">
-                                    {{status.instanceInfo.status}}
-                                </span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6" *ngIf="healthData">
-            <div class="card card-outline-primary">
-                <div class="card-header card-primary">
-                    <h3 class="card-title">Health</h3>
-                </div>
-                <div class="card-block">
-                    <table id="healthCheck" class="table">
-                        <tbody>
-                        <tr *ngFor="let health of healthData">
-                            <td><span class="text-capitalize">{{baseName(health.name)}}</span> {{subSystemName(health.name)}}</td>
-                            <td class="text-center">
-                            <span class="badge badge-pill font-weight-normal" [ngClass]="getBadgeClass(health.status)">
-                                {{health.status}}
-                            </span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+
+        <p>
+            If you have any question on JHipster:
+        </p>
+
+        <ul>
+            <li><a href="http://www.jhipster.tech/" target="_blank" rel="noopener">JHipster homepage</a></li>
+            <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener">JHipster on Stack Overflow</a></li>
+            <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener">JHipster bug tracker</a></li>
+            <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener">JHipster public chat room</a></li>
+            <li><a href="https://twitter.com/java_hipster" target="_blank" rel="noopener">follow @java_hipster on Twitter</a></li>
+        </ul>
+
+        <p>
+            <span>If you like JHipster, don't forget to give us a star on</span> <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener">GitHub</a>!
+        </p>
     </div>
 </div>

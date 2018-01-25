@@ -1,13 +1,15 @@
 import { Component, OnDestroy } from '@angular/core';
-import { EventManager, AlertService } from 'ng-jhipster';
-import { Subscription } from 'rxjs/Rx';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'jhi-alert-error',
     template: `
         <div class="alerts" role="alert">
             <div *ngFor="let alert of alerts"  [ngClass]="{\'alert.position\': true, \'toast\': alert.toast}">
-                <ngb-alert type="{{alert.type}}" close="alert.close(alerts)"><pre [innerHTML]="alert.msg"></pre></ngb-alert>
+                <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)">
+                    <pre [innerHTML]="alert.msg"></pre>
+                </ngb-alert>
             </div>
         </div>`
 })
@@ -15,8 +17,8 @@ export class JhiAlertErrorComponent implements OnDestroy {
 
     alerts: any[];
     cleanHttpErrorListener: Subscription;
-
-    constructor(private alertService: AlertService, private eventManager: EventManager) {
+    // tslint:disable-next-line: no-unused-variable
+    constructor(private alertService: JhiAlertService, private eventManager: JhiEventManager) {
         this.alerts = [];
 
         this.cleanHttpErrorListener = eventManager.subscribe('jHipsterRegistryApp.httpError', (response) => {
@@ -55,7 +57,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                             const fieldName = convertedField.charAt(0).toUpperCase() +
                                 convertedField.slice(1);
                             this.addErrorAlert(
-                                'Field ' + fieldName + ' cannot be empty', 'error.' + fieldError.message, { fieldName });
+                                'Error on field "' + fieldName + '"', 'error.' + fieldError.message, { fieldName });
                         }
                     } else if (httpResponse.text() !== '' && httpResponse.json() && httpResponse.json().message) {
                         this.addErrorAlert(httpResponse.json().message, httpResponse.json().message, httpResponse.json().params);

@@ -1,3 +1,4 @@
+@import 'bootstrap-variables';
 
 /* ==============================================================
 Bootstrap tweaks
@@ -7,6 +8,15 @@ body, h1, h2, h3, h4 {
     font-weight: 300;
 }
 
+a {
+    color: #533f03;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #533f03;
+    font-weight: bold;
+}
 
 /* ==========================================================================
 Browser Upgrade Prompt
@@ -39,16 +49,13 @@ Generic styles
     border: none;
 }
 
+.error {
+    color: white;
+    background-color: red;
+}
+
 .pad {
     padding: 10px;
-}
-
-.head {
-    margin-bottom: 1%;
-}
-
-.bottom {
-    margin-top: 2%;
 }
 
 .w-40 {
@@ -64,25 +71,9 @@ Generic styles
     word-break:break-all;
 }
 
-pre.code-block {
-    padding: 10px;
-    background: #403d3d;
-    color: rgb(241, 187, 90);
-    border-radius: 5px;
-}
-
-.refresh-left-side {
-    .dropdown-menu {
-        left: initial;
-        right: 0;
-    }
-}
-
-/*FIXME this is to support grids in table class; */
-table td[class*=col-], table th[class*=col-] {
-    position: static;
-    display: table-cell;
-    float: none;
+.readonly {
+    background-color: #eee;
+    opacity: 1;
 }
 
 .footer {
@@ -93,10 +84,10 @@ table td[class*=col-], table th[class*=col-] {
 make sure browsers use the pointer cursor for anchors, even with no href
 ========================================================================== */
 a:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.hand {
+.hand, [jhisortby] {
     cursor: pointer;
 }
 
@@ -219,21 +210,11 @@ ui bootstrap tweaks
     outline: none;
 }
 
-.navbar  {
-    border-radius: 0; /* Hide the navbar rounded corners */
-    -moz-border-radius: 0;
-}
-
-.nav-tabs > li > a.active, .nav-tabs > li > a.active:hover, .nav-tabs > li > a.active:focus {
-    color: #2c3e50;
-    background-color: #ffffff;
-    border: 1px solid #ecf0f1;
-    border-bottom-color: transparent;
-    cursor: default;
-}
-
-.progress {
-    background-color: #e0e2e2;
-}
+.thread-dump-modal-lock {
+    max-width: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+ }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */

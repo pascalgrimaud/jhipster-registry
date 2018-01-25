@@ -1,56 +1,54 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { JhiHealthService } from './health.service';
 import { JhiHealthModalComponent } from './health-modal.component';
 
-import { JhiRoutesService, Route } from '../../shared';
-
 @Component({
     selector: 'jhi-health',
     templateUrl: './health.component.html'
 })
-export class JhiHealthCheckComponent implements OnInit, OnDestroy {
+export class JhiHealthCheckComponent implements OnInit {
     healthData: any;
     updatingHealth: boolean;
-    activeRoute: Route;
-    subscription: Subscription;
 
     constructor(
         private modalService: NgbModal,
-        private healthService: JhiHealthService,
-        private routesService: JhiRoutesService
-    ) {}
+        private healthService: JhiHealthService
+    ) {
 
-    ngOnInit() {
-        this.subscription = this.routesService.routeChanged$.subscribe((route) => {
-            this.activeRoute = route;
-            this.displayActiveRouteHealth();
-        });
     }
 
-    displayActiveRouteHealth() {
-        this.updatingHealth = true;
-        if (this.activeRoute && this.activeRoute.status !== 'DOWN') {
-            this.healthService.checkInstanceHealth(this.activeRoute).subscribe((health) => {
-                this.healthData = this.healthService.transformHealthData(health);
-                this.updatingHealth = false;
-            }, (error) => {
-                if (error.status === 503 || error.status === 500 || error.status === 404) {
-                    this.healthData = this.healthService.transformHealthData(error.json());
-                    this.updatingHealth = false;
-                    if (error.status === 500 || error.status === 404) {
-                        this.routesService.routeDown(this.activeRoute);
-                    }
-                }
-            });
+    ngOnInit() {
+        this.refresh();
+    }
+
+    baseName(name: string) {
+        return this.healthService.getBaseName(name);
+    }
+
+    getBadgeClass(statusState) {
+        if (statusState === 'UP') {
+            return 'badge-success';
         } else {
-            this.routesService.routeDown(this.activeRoute);
+            return 'badge-danger';
         }
     }
 
-    // user click
+    refresh() {
+        this.updatingHealth = true;
+
+        this.healthService.checkHealth().subscribe((health) => {
+            this.healthData = this.healthService.transformHealthData(health);
+            this.updatingHealth = false;
+        }, (error) => {
+            if (error.status === 503) {
+                this.healthData = this.healthService.transformHealthData(error.json());
+                this.updatingHealth = false;
+            }
+        });
+    }
+
     showHealth(health: any) {
         const modalRef  = this.modalService.open(JhiHealthModalComponent);
         modalRef.componentInstance.currentHealth = health;
@@ -61,25 +59,8 @@ export class JhiHealthCheckComponent implements OnInit, OnDestroy {
         });
     }
 
-    baseName(name: string) {
-        return this.healthService.getBaseName(name);
-    }
-
-    // user click
-    getBadgeClass(statusState) {
-        if (!statusState || statusState !== 'UP') {
-            return 'badge-danger';
-        } else {
-            return 'badge-success';
-        }
-    }
-
     subSystemName(name: string) {
         return this.healthService.getSubSystemName(name);
     }
 
-    ngOnDestroy() {
-        // prevent memory leak when component destroyed
-        this.subscription.unsubscribe();
-    }
 }

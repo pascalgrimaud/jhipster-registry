@@ -1,3 +1,4 @@
+export * from './constants/error.constants';
 export * from './constants/pagination.constants';
 export * from './alert/alert.component';
 export * from './alert/alert-error.component';
@@ -21,6 +22,9 @@ export * from './routes/route-selector.component';
 export * from './routes/routes.service';
 export * from './refresh/refresh-selector.component';
 export * from './refresh/refresh.service';
+export * from './model/response-wrapper.model';
+export * from './model/request-util';
+export * from './model/base-entity';
 export * from './shared-libs.module';
 export * from './shared-common.module';
 export * from './shared.module';

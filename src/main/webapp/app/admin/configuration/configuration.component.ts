@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiConfigurationService } from './configuration.service';
-
-import { JhiRoutesService, Route } from '../../shared'
+import { JhiRoutesService, Route } from '../../shared';
 
 @Component({
     selector: 'jhi-configuration',
@@ -66,6 +65,7 @@ export class JhiConfigurationComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        // prevent memory leak when component destroyed
         this.subscription.unsubscribe();
     }
 }

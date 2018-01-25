@@ -4,7 +4,7 @@
     <jhi-route-selector></jhi-route-selector>
     <span>Filter (by prefix)</span> <input type="text" [(ngModel)]="filter" class="form-control">
     <label>Spring configuration</label>
-    <table class="table table-striped table-bordered table-responsive d-table">
+    <table class="table table-striped table-bordered table-responsive d-table" *ngIf="configuration">
         <thead>
         <tr>
             <th class="w-40" (click)="orderProp = 'prefix'; reverse=!reverse"><span>Prefix</span></th>

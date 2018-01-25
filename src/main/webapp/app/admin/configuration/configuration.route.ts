@@ -6,6 +6,6 @@ export const configurationRoute: Route = {
     path: 'jhi-configuration',
     component: JhiConfigurationComponent,
     data: {
-        pageTitle: 'Cloud Configuration'
+        pageTitle: 'Cloud configuration'
     }
 };

@@ -13,7 +13,6 @@ export class JhiConfigurationService {
     getConfigs(prefix: String = ''): Observable<any> {
         return this.http.get(SERVER_API_URL + 'management/configprops').map((res: Response) => {
             const properties: any[] = [];
-
             const propertiesObject = res.json();
 
             for (const key in propertiesObject) {
@@ -46,7 +45,6 @@ export class JhiConfigurationService {
                 if (propertiesObject.hasOwnProperty(key)) {
                     const valsObject = propertiesObject[key];
                     const vals: any[] = [];
-
                     for (const valKey in valsObject) {
                         if (valsObject.hasOwnProperty(valKey)) {
                             vals.push({key: valKey, val: valsObject[valKey]});

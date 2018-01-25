@@ -55,6 +55,7 @@ export class HomeComponent implements OnInit {
         this.eventManager.subscribe('authenticationSuccess', (message) => {
             this.principal.identity().then((account) => {
                 this.account = account;
+                this.populateDashboard();
             });
         });
     }
@@ -64,7 +65,13 @@ export class HomeComponent implements OnInit {
     }
 
     login() {
-        this.modalRef = this.loginModalService.open();
+        this.profileService.getProfileInfo().then((profileInfo) => {
+            if (profileInfo.activeProfiles.indexOf('oauth2') > -1) {
+                this.loginOAuth2Service.login();
+            } else {
+                this.modalRef = this.loginModalService.open();
+            }
+        })
     }
 
     populateDashboard() {
